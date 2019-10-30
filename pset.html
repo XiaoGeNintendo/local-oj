@@ -1,0 +1,41 @@
+<html>
+    <head>
+            <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+            <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+            <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+            <title>Local OJ</title>
+            <script src="pdata.js"></script>
+    </head>
+    <body>
+        <center>
+            <h1>Problemset</h1>
+        </center>
+        <table id="ptable" class="table table-striped table-bordered table-hover"></table>
+        
+    </body>
+
+    <script>
+        //load data
+        var str= `
+            <tr>
+                <th>#</td>
+                <th width="80%">Name</th>
+                <th>Solved</th>
+            </tr>
+        `
+
+        for(var i=0;i<problems.length;i++){
+            str+=`
+            <tr>
+                <td>`+(i+1)+`</td>
+                <td>`+problems[i].name+`</td>
+                <td>YES</td>
+            </tr>
+            `
+        }
+
+        document.getElementById("ptable").innerHTML=str;
+    </script>
+</html>
