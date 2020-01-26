@@ -10,7 +10,7 @@ function getProtocol(p,inp){
     for(var i=0;i<x.length;i++){
         ans+=x[i];
         if(i!=x.length-1){
-            ans+=inp[i];
+            ans+=JSON.stringify(inp[i]);
         }
     }
 
