@@ -93,6 +93,7 @@
                         res+=color("orange",fontAws("bomb")+" Runtime Error ")+_res[1]+"<br/>"
                     }
                     //clear timeout
+                    worker.terminate();
                     window.clearTimeout();
                     str+=res;
                     test(i+1);
