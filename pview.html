@@ -16,6 +16,7 @@
         </center>
         <h1 id="ptitle">Unknown Problem Title</h1>
         <hr/>
+        <b id="ptl">Time Limit:???ms per test</b> <br/>
         <p id="pstatement">Unknown Problem Statement</p>
         <hr/>
         <p id="psample">Problem Sample</p>
@@ -32,6 +33,7 @@
         var pid=splits[splits.length-1];
 
         var p=problems[pid];
+        document.getElementById("ptl").innerHTML="Time Limit:"+p.tl+"ms per test";
         document.getElementById("ptitle").innerHTML="#"+(parseInt(pid)+1)+" - "+p.name;
         document.getElementById("pstatement").innerHTML=p.statement;
 
@@ -74,7 +76,7 @@
                     str+=res;
                     test(i+1);
                 }
-            },1000);
+            },p.tl);
 
             //when successfully returned
             worker.onmessage=function(event){

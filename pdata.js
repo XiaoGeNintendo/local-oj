@@ -3,7 +3,14 @@ var problems=[
         name:"A+B Problem",
         statement:`You are given two integers A and B within range of 10. Add them. <br/>
         Formally, you need to implement a function add(a,b) in Javascript. <br/>
-        The function should return an integer c and c=a+b <br/>`,
+        The function should return an integer c and c=a+b <br/>
+        An example:
+        <pre>
+        function add(a,b){
+            return a+b;
+        }
+        </pre>
+        Try it by submitting it!`,
         inp:"add(#,#)",
         checker:function(ans,inp){
             if(ans==inp[0]+inp[1]){
@@ -21,6 +28,7 @@ var problems=[
             [0,10],
             [10,10]
         ],
+        tl:1000,
         samples:[
             {
                 in:[2,5],

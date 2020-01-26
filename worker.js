@@ -2,7 +2,7 @@
  * This is a worker for one single testcase
  */
 importScripts("util.js","pdata.js")
-console.log("[W]Worker Init OK");
+// console.log("[W]Worker Init OK");
 
 onmessage=function(e){
     
@@ -10,7 +10,7 @@ onmessage=function(e){
     var p=problems[e.data[1]];
     var id=e.data[2];
 
-    console.log("[W]Received Prog="+e.data[0]+" protocol="+e.data[1]);
+    // console.log("[W]Received Prog="+e.data[0]+" protocol="+e.data[1]);
 
     try {  
         var t2=prog+"\n"+getProtocol(p,p.tests[id]);
