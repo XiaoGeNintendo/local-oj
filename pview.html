@@ -1,0 +1,116 @@
+<html>
+    <head>
+            <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+            <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+            <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+            <title>Local OJ</title>
+            <script src="pdata.js"></script>
+            <script src="util.js"></script>
+    </head>
+    <body>
+        <a href="pset.html">Back</a>
+        <center>
+            <h1>Problem View</h1>
+        </center>
+        <h1 id="ptitle">Unknown Problem Title</h1>
+        <hr/>
+        <p id="pstatement">Unknown Problem Statement</p>
+        <hr/>
+        <p id="psample">Problem Sample</p>
+        <hr/>
+        <textarea id="code" placeholder="Enter your code here"></textarea>
+        <br/>
+        <button onclick="submit()">Submit Code</button>
+        <hr/>
+        <p id="res">Press the Submit button to show result</p>
+    </body>
+
+    <script>
+        var splits=location.href.split("?")
+        var pid=splits[splits.length-1];
+
+        var p=problems[pid];
+        document.getElementById("ptitle").innerHTML="#"+(parseInt(pid)+1)+" - "+p.name;
+        document.getElementById("pstatement").innerHTML=p.statement;
+
+        var inner="";
+        for(var i=0;i<p.samples.length;i++){
+            inner+="<b>Sample "+(i+1)+" </b><br/>";
+            inner+="Protocol:"+getProtocol(p,p.samples[i].in)+"<br/>";
+            inner+="Out:"+p.samples[i].out+"<br/>"
+        }
+        document.getElementById("psample").innerHTML=inner;
+        
+        var out=document.getElementById("res");
+        
+        var str="";
+        function test(i){
+            if(i==p.tests.length){
+                str+="Done!";
+
+                out.innerHTML=str;
+                return;
+            }
+
+            out.innerHTML=str;
+
+            //create worker
+            var worker=new Worker("worker.js");
+            worker.postMessage([document.getElementById("code").value,pid,i]);
+            var st=new Date().getTime();
+
+            //the result string
+            var res="Test #"+(i+1)+" - ";
+            var tle=0; //0 - nothing happened, 1 - worker already returned 2 - has TLEed
+
+            //when timeout
+            setTimeout(function(){
+                if(tle==0){
+                    tle=2;
+                    res+=color("blue",fontAws("clock")+" Time Limit Exceeded <br/>");
+                    worker.terminate();
+                    str+=res;
+                    test(i+1);
+                }
+            },1000);
+
+            //when successfully returned
+            worker.onmessage=function(event){
+                if(tle==0){
+                    tle=1;
+
+                    var _res=event.data;
+
+                    var ed=new Date().getTime();
+                    //get time and anything
+                    if(_res[0]==0){
+                        res+=color("green",fontAws("check")+" Accepted ")+_res[1]+" Time Cost:"+(ed-st)+"ms<br/>"
+                    }else if(_res[0]==1){
+                        res+=color("red",fontAws("close")+" Wrong Answer ")+_res[1]+"<br/>"
+                    }else if(_res[0]==2){
+                        res+=color("orange",fontAws("bomb")+" Runtime Error ")+_res[1]+"<br/>"
+                    }
+                    //clear timeout
+                    window.clearTimeout();
+                    str+=res;
+                    test(i+1);
+                }
+            }
+        }
+
+        function submit(){
+            
+            if(typeof(Worker)!=undefined){
+                str="";
+            }else{
+                str=color("red","Your browser doesn't support WebWorker! Change to a modern one please!")
+                out.innerHTML=str;
+                return;
+            }
+            test(0);
+
+        }
+    </script>
+</html>

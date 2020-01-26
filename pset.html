@@ -9,6 +9,7 @@
             <script src="pdata.js"></script>
     </head>
     <body>
+        <a href="index.html">Back</a>
         <center>
             <h1>Problemset</h1>
         </center>
@@ -30,7 +31,7 @@
             str+=`
             <tr>
                 <td>`+(i+1)+`</td>
-                <td>`+problems[i].name+`</td>
+                <td><a href="pview.html?`+(i)+`">`+problems[i].name+`</td>
                 <td>YES</td>
             </tr>
             `
